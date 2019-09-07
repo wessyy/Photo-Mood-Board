@@ -30,12 +30,12 @@ class ShoppingList extends Component {
               <CSSTransition key={_id} timeout={500} classNames='fade'>
                 <ListGroupItem>
                     <Button
-                        className='remove-btn'
-                        color='danger'
-                        size='sm'
-                        onClick={this.onDeleteClick.bind(this, _id)}
+                      className='remove-btn'
+                      color='danger'
+                      size='sm'
+                      onClick={this.onDeleteClick.bind(this, _id)}
                     >
-                        &times;
+                      &times;
                     </Button>
                   {name}
                 </ListGroupItem>
@@ -50,7 +50,6 @@ class ShoppingList extends Component {
 
 const mapStateToProps = state => ({
   item: state.item,
-//   isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(
