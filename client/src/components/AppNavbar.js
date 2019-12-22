@@ -1,26 +1,29 @@
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Collapse,
   Navbar,
   NavbarToggler,
   NavbarBrand,
-  Container
+  NavItem,
+  NavLink,
+  Nav,
+  Container,
 } from 'reactstrap';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
-// import RegisterModal from './auth/RegisterModal';
-// import LoginModal from './auth/LoginModal';
-// import Logout from './auth/Logout';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import RegisterModal from './auth/RegisterModal';
+import LoginModal from './auth/LoginModal';
+import Logout from './auth/Logout';
 
 class AppNavbar extends Component {
   state = {
-    isOpen: false
+    isOpen: false 
   };
 
-  // static propTypes = {
-  //   auth: PropTypes.object.isRequired
-  // };
+  static propTypes = {
+    auth: PropTypes.object.isRequired
+  };
 
   toggle = () => {
     this.setState({
@@ -29,31 +32,31 @@ class AppNavbar extends Component {
   };
 
   render() {
-    // const { isAuthenticated, user } = this.props.auth;
+    const { isAuthenticated, user } = this.props.auth;
 
-    // const authLinks = (
-    //   <Fragment>
-    //     <NavItem>
-    //       <span className='navbar-text mr-3'>
-    //         <strong>{user ? `Welcome ${user.name}` : ''}</strong>
-    //       </span>
-    //     </NavItem>
-    //     <NavItem>
-    //       {/* <Logout /> */}
-    //     </NavItem>
-    //   </Fragment>
-    // );
+    const authLinks = (
+      <Fragment>
+        <NavItem>
+          <span className='navbar-text mr-3'>
+            <strong>{user ? `Welcome ${user.name}` : ''}</strong>
+          </span>
+        </NavItem>
+        <NavItem>
+          <Logout />
+        </NavItem>
+      </Fragment>
+    );
 
-    // const guestLinks = (
-    //   <Fragment>
-    //     <NavItem>
-    //       <RegisterModal />
-    //     </NavItem>
-    //     <NavItem>
-    //       <LoginModal />
-    //     </NavItem>
-    //   </Fragment>
-    // );
+    const guestLinks = (
+      <Fragment>
+        <NavItem>
+          <RegisterModal />
+        </NavItem>
+        <NavItem>
+          <LoginModal />
+        </NavItem>
+      </Fragment>
+    );
 
     return (
       <div>
@@ -62,9 +65,9 @@ class AppNavbar extends Component {
             <NavbarBrand href='/'>Reley App</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
-              {/* <Nav className='ml-auto' navbar>
+              <Nav className='ml-auto' navbar>
                 {isAuthenticated ? authLinks : guestLinks}
-              </Nav> */}
+              </Nav>
             </Collapse>
           </Container>
         </Navbar>
@@ -73,13 +76,11 @@ class AppNavbar extends Component {
   }
 }
 
-export default AppNavbar;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-// const mapStateToProps = state => ({
-//   auth: state.auth
-// });
-
-// export default connect(
-//   mapStateToProps,
-//   null
-// )(AppNavbar);
+export default connect(
+  mapStateToProps,
+  null
+)(AppNavbar);
