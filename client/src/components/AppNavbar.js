@@ -8,13 +8,18 @@ import {
   NavItem,
   NavLink,
   Nav,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
   Container,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import RegisterModal from './auth/RegisterModal';
 import LoginModal from './auth/LoginModal';
-import Logout from './auth/Logout';
+import UploadTool from './UploadTool';
+import { logout } from '../actions/authActions';
 
 class AppNavbar extends Component {
   state = {
@@ -22,7 +27,9 @@ class AppNavbar extends Component {
   };
 
   static propTypes = {
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    board: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired
   };
 
   toggle = () => {
@@ -37,12 +44,38 @@ class AppNavbar extends Component {
     const authLinks = (
       <Fragment>
         <NavItem>
-          <span className='navbar-text mr-3'>
-            <strong>{user ? `Welcome ${user.name}` : ''}</strong>
-          </span>
+          <UploadTool />
         </NavItem>
         <NavItem>
-          <Logout />
+          <UncontrolledDropdown>
+            <DropdownToggle caret>
+              Boards
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>Create Board</DropdownItem>
+              {(this.props.board && this.props.board.boards) ? this.props.board.boards.map((board, i) => {
+                return (
+                <DropdownItem key={i} onClick={this.props.logout}>
+                  {board.name}
+                </DropdownItem>
+                );
+              }) : null}
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </NavItem>
+        <NavItem>
+          <UncontrolledDropdown>
+            <DropdownToggle caret>
+              <strong>{user ? `${user.name}` : ''}</strong>
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Header</DropdownItem>
+              <DropdownItem>Settings</DropdownItem>
+              <DropdownItem onClick={this.props.logout}>
+                Logout
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
         </NavItem>
       </Fragment>
     );
@@ -77,10 +110,11 @@ class AppNavbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  board: state.board
 });
 
 export default connect(
   mapStateToProps,
-  null
+  { logout }
 )(AppNavbar);

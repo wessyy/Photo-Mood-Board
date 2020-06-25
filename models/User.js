@@ -19,7 +19,15 @@ const UserSchema = new Schema({
     register_date: {
         type: Date,
         default: Date.now
-    }
+    },
+    boards: [{
+        _id: false,
+        boardID: String,
+        name: {
+            type: String,
+            unique: true
+        }
+    }]
 });
 
 module.exports = User = mongoose.model('user', UserSchema);

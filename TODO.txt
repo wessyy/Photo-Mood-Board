@@ -1,0 +1,11 @@
+UI:
+- Add upload component to upload photos
+- Add board button, dropdown to see boards etc.
+    - Board modal to configure name of board etc
+- Reformat photos
+
+Backend:
+- Add auth for board endpoints
+- Delete board
+- Delete photo from board
+

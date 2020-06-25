@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
             jwt.sign(
                 { id: user.id },
                 config.get('jwtSecret'),
-                { expiresIn: 3600 },
+                { expiresIn: "7 days" },
                 (err, token) => {
                     if (err) throw err;
                     res.json({
@@ -38,7 +38,8 @@ router.post('/', (req, res) => {
                         user: {
                             id: user.id,
                             name: user.name,
-                            email: user.email
+                            email: user.email,
+                            boards: user.boards
                         }
                     });
                 }
@@ -52,7 +53,7 @@ router.post('/', (req, res) => {
 // @access  Private
 router.get('/user', auth, (req, res) => {
     User.findById(req.user.id)
-        .select('-password')
+        .select('-password') // Don't include password field
         .then(user => {
             res.json(user)
         })

@@ -9,7 +9,8 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  GET_BOARDS
 } from './types';
 
 // Check token & load user
@@ -18,10 +19,16 @@ export const loadUser = () => (dispatch, getState) => {
     dispatch({ type: USER_LOADING });
 
     axios.get('/api/auth/user', tokenConfig(getState))
-        .then(res => dispatch({
-            type: USER_LOADED,
-            payload: res.data
-        }))
+        .then(res => {
+            dispatch({
+                type: USER_LOADED,
+                payload: res.data
+            });
+            dispatch({
+                type: GET_BOARDS,
+                payload: res.data.boards
+            });
+        })
         .catch(err => {
             dispatch(returnErrors(err.response.data, err.response.status));
             dispatch({
@@ -30,7 +37,7 @@ export const loadUser = () => (dispatch, getState) => {
         })
 };
 
-// Regist User
+// Register User
 export const register = ({ name, email, password }) => dispatch => {
     // Headers
     const config = {
@@ -68,10 +75,16 @@ export const login = ({ email, password }) => dispatch => {
     const body = JSON.stringify({ email, password });
 
     axios.post('/api/auth', body, config)
-        .then(res => dispatch({
-            type: LOGIN_SUCCESS,
-            payload: res.data
-        }))
+        .then(res => {
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: res.data
+            });
+            dispatch({
+                type: GET_BOARDS,
+                payload: res.data.user.boards
+            });
+        })
         .catch(err => {
             dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));
             dispatch({

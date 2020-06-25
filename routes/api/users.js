@@ -3,9 +3,11 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const auth = require('../../middleware/auth');
 
 // User Model
 const User = require('../../models/User');
+const Board = require('../../models/board');
 
 // @route   POST api/Users
 // @desc    Register new users

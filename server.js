@@ -22,6 +22,8 @@ mongoose.set('debug', true)
 app.use('/api/items', require('./routes/api/items'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/photos', require('./routes/api/photos'));
+app.use('/api/boards', require('./routes/api/boards'));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
